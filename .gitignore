@@ -25,6 +25,12 @@
 # Visual Studio cache directory
 .vs/
 
+# Rider cache directory
+.idea/
+
+# Visual Studio Code cache directory
+.vscode/
+
 # Gradle cache directory
 .gradle/
 
@@ -57,7 +63,19 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+*.symbols.zip
 
 # Crashlytics generated file
 crashlytics-build.properties
 
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store*
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+[Tt]humbs.db
+[Dd]esktop.ini
