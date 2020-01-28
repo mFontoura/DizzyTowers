@@ -31,4 +31,9 @@ public class KeyboardInput : MonoBehaviour, IInputHandler
     {
         return Input.GetKeyUp(KeyCode.D);
     }
+
+    public bool Action()
+    {
+        return Input.GetKeyUp(KeyCode.Space);
+    }
 }

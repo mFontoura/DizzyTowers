@@ -34,11 +34,11 @@ public class Controllable : MonoBehaviour
         
         //decide what input handler to get
         //TODO: move decision to another file
-//#if UNITY_EDITOR
-//        _inputHandler = gameObject.AddComponent<KeyboardInput>();
-//#elif UNITY_ANDROID || UNITY_IOS
+#if UNITY_EDITOR
+        _inputHandler = gameObject.AddComponent<KeyboardInput>();
+#elif UNITY_ANDROID || UNITY_IOS
         _inputHandler = gameObject.AddComponent<TouchInput>();
-//#endif
+#endif
     }
 
     private void Update()
@@ -48,6 +48,10 @@ public class Controllable : MonoBehaviour
                 if (_inputHandler.Left() || _inputHandler.Right()) {
                     _state = State.Selected;
                 }
+                
+                if (_inputHandler.Action()) {
+                    Rotate();
+                }
 
                 break;
             }
@@ -55,17 +59,21 @@ public class Controllable : MonoBehaviour
                 if (_inputHandler.HoldingLeft()) {
                     _position = new Vector3(_position.x - BLOCK_SIZE, _position.y);
                     _state = State.MovingLeft;
+                    break;
                 }
 
                 if (_inputHandler.HoldingRight()) {
                     _position = new Vector3(_position.x + BLOCK_SIZE, _position.y);
                     _state = State.MovingRight;
+                    break;
                 }
 
                 if (_inputHandler.ReleaseLeft() || _inputHandler.ReleaseRight()) {
-                    _currentHoldingTime = 0;
-                    _currentSpeed = _maxSpeed;
-                    _state = State.Free;
+                    ResetBlockState();
+                }
+                
+                if (_inputHandler.Action()) {
+                    Rotate();
                 }
 
                 break;
@@ -79,9 +87,7 @@ public class Controllable : MonoBehaviour
                 }
                 
                 if (_inputHandler.ReleaseLeft() || _inputHandler.ReleaseRight()) {
-                    _currentHoldingTime = 0;
-                    _currentSpeed = _maxSpeed;
-                    _state = State.Free;
+                    ResetBlockState();
                 }
 
                 break;
@@ -94,9 +100,7 @@ public class Controllable : MonoBehaviour
                 }
                 
                 if (_inputHandler.ReleaseLeft() || _inputHandler.ReleaseRight()) {
-                    _currentHoldingTime = 0;
-                    _currentSpeed = _maxSpeed;
-                    _state = State.Free;
+                    ResetBlockState();
                 }
                 break;
             default:
@@ -105,6 +109,18 @@ public class Controllable : MonoBehaviour
 
 
         _transform.position = _position;
+    }
+
+    private void ResetBlockState()
+    {
+        _currentHoldingTime = 0;
+        _currentSpeed = _maxSpeed;
+        _state = State.Free;
+    }
+
+    private void Rotate()
+    {
+        transform.Rotate(new Vector3(0,0,90f));
     }
 
     public void DropDownOneBlock()
