@@ -1,14 +1,66 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class TouchInput : MonoBehaviour, IInputHandler
 {
+    private enum TouchState
+    {
+        Pressed,
+        Up
+    }
+
+    private Vector3 _lastPosition;
+    
     public bool Left()
     {
-        throw new System.NotImplementedException();
+        if (Input.touchCount <= 0) return false;
+        if (Input.GetTouch(0).phase != TouchPhase.Began) return false;
+
+        _lastPosition = Input.GetTouch(0).position;
+        return true;
+
     }
 
     public bool Right()
     {
-        throw new System.NotImplementedException();
+        if (Input.touchCount <= 0) return false;
+        if (Input.GetTouch(0).phase != TouchPhase.Began) return false;
+        
+        _lastPosition = Input.GetTouch(0).position;
+        return true;
+
+    }
+
+    public bool HoldingLeft()
+    {
+        if (Input.touchCount <= 0) return false;
+        if (Input.GetTouch(0).phase != TouchPhase.Moved) return false;
+        if (!(Input.GetTouch(0).position.x < _lastPosition.x)) return false;
+        
+        _lastPosition = Input.GetTouch(0).position;
+        return true;
+    }
+
+    public bool HoldingRight()
+    {
+        if (Input.touchCount <= 0) return false;
+        if (Input.GetTouch(0).phase != TouchPhase.Moved) return false;
+        if (!(Input.GetTouch(0).position.x > _lastPosition.x)) return false;
+        
+        _lastPosition = Input.GetTouch(0).position;
+        return true;
+    }
+
+    public bool ReleaseLeft()
+    {
+        if (Input.touchCount <= 0) return false;
+        return Input.GetTouch(0).phase == TouchPhase.Ended;
+    }
+
+    public bool ReleaseRight()
+    {
+        if (Input.touchCount <= 0) return false;
+        return Input.GetTouch(0).phase == TouchPhase.Ended;
     }
 }
