@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 210739983
+    locked: 0
+  - name: GameplayObjs
+    uniqueID: 4083465183
+    locked: 0
