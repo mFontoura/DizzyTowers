@@ -1,8 +1,11 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+
 
 namespace BlockEditor
 {
@@ -81,3 +84,5 @@ namespace BlockEditor
         
     }
 }
+
+#endif
