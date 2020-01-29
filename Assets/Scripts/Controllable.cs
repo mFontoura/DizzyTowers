@@ -24,6 +24,7 @@ public class Controllable : MonoBehaviour
     private State _state;
     private float _currentHoldingTime;
     private float _currentSpeed;
+    private Rigidbody2D _rigidbody2D;
     
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class Controllable : MonoBehaviour
         _position = _transform.position;
         _state = State.Free;
         _currentSpeed = _maxSpeed;
+        _rigidbody2D = GetComponent<Rigidbody2D>();
         
         //decide what input handler to get
         //TODO: move decision to another file
@@ -57,14 +59,16 @@ public class Controllable : MonoBehaviour
             }
             case State.Selected:{
                 if (_inputHandler.HoldingLeft()) {
-                    _position = new Vector3(_position.x - BLOCK_SIZE, _position.y);
+                    _position = new Vector3(_position.x - BLOCK_SIZE, transform.position.y);
                     _state = State.MovingLeft;
+                    _rigidbody2D.MovePosition(new Vector2(_position.x, transform.position.y));
                     break;
                 }
 
                 if (_inputHandler.HoldingRight()) {
-                    _position = new Vector3(_position.x + BLOCK_SIZE, _position.y);
+                    _position = new Vector3(_position.x + BLOCK_SIZE, transform.position.y);
                     _state = State.MovingRight;
+                    _rigidbody2D.MovePosition(new Vector2(_position.x, transform.position.y));
                     break;
                 }
 
@@ -81,9 +85,10 @@ public class Controllable : MonoBehaviour
             case State.MovingLeft:
                 _currentHoldingTime += Time.deltaTime * _speed;
                 if (_currentHoldingTime >= _currentSpeed) {
-                    _position = new Vector3(_position.x - BLOCK_SIZE, _position.y);
+                    _position = new Vector3(_position.x - BLOCK_SIZE, transform.position.y);
                     _currentSpeed -= 0.2f;
                     _currentHoldingTime = 0;
+                    _rigidbody2D.MovePosition(new Vector2(_position.x, transform.position.y));
                 }
                 
                 if (_inputHandler.ReleaseLeft() || _inputHandler.ReleaseRight()) {
@@ -94,9 +99,10 @@ public class Controllable : MonoBehaviour
             case State.MovingRight:
                 _currentHoldingTime += Time.deltaTime * _speed;
                 if (_currentHoldingTime >= _currentSpeed) {
-                    _position = new Vector3(_position.x + BLOCK_SIZE, _position.y);
+                    _position = new Vector3(_position.x + BLOCK_SIZE, transform.position.y);
                     _currentSpeed -= 0.2f;
                     _currentHoldingTime = 0;
+                    _rigidbody2D.MovePosition(new Vector2(_position.x, transform.position.y));
                 }
                 
                 if (_inputHandler.ReleaseLeft() || _inputHandler.ReleaseRight()) {
@@ -106,9 +112,8 @@ public class Controllable : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
-
-        _transform.position = _position;
+        
+        
     }
 
     private void ResetBlockState()
@@ -125,6 +130,6 @@ public class Controllable : MonoBehaviour
 
     public void DropDownOneBlock()
     {
-        _position = new Vector3(_position.x, _position.y - BLOCK_SIZE);
+        _rigidbody2D.MovePosition(new Vector3(transform.position.x, transform.position.y - BLOCK_SIZE));
     }
 }
