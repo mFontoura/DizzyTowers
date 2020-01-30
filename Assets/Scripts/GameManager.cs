@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     //TODO: should all be in a config
     private const float UNIT_SIZE = 0.50f;
     private const float TARGET_HEIGHT_TO_WIN = 6;
+    private const int STARTING_HEALTH_POINTS = 5;
 
     private static GameManager sInstance;
 
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Vector3 _spawnPoint;
     [SerializeField] private float _startingHeight;
     [SerializeField] private FloatVar _currentHeight;
+    [SerializeField] private IntVar _currentHealthPoints;
 
     private List<Player> _players;
     private int _numOfLevels;
@@ -28,7 +30,8 @@ public class GameManager : MonoBehaviour
     private Block _activeBlock;
     private float _passedTimeSinceLastDrop;
     private float _heightGoal;
-    
+    private bool _gameHasEnded;
+
 
     private void Awake()
     {
@@ -48,8 +51,12 @@ public class GameManager : MonoBehaviour
         _blockPools = new Block[_numOfLevels][];
         _heightGoal = (UNIT_SIZE * TARGET_HEIGHT_TO_WIN) + _startingHeight;
         _currentHeight.SetValue(_startingHeight);
+        
+        //TODO: health system should be moved to a different system or maybe to the player
+        _currentHealthPoints.SetValue(STARTING_HEALTH_POINTS);
 
         InitPools();
+        _players.Add(new Player(_currentHealthPoints, _blockPools));
     }
 
     private void InitPools()
@@ -72,8 +79,14 @@ public class GameManager : MonoBehaviour
     {
         var block = Instantiate(blockPrefab, _blocksPoolParent).AddComponent<Block>();
         block.Init(blockSprite, spriteMaterial);
+        block.blockTouchedKillZone += MoveBackToPool;
 
         return block;
+    }
+
+    private void MoveBackToPool(Block block)
+    {
+        block.Activate(false);
     }
 
     private void Start()
@@ -93,9 +106,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!_gameIsRunning) return;
+        if (!_gameIsRunning || _gameHasEnded) return;
         
         if(ReachedTargetHeight()) return;
+
+        if (_currentHealthPoints.GetValue() <= 0) {
+            Debug.Log("GAME OVER");
+            _gameHasEnded = true;
+            return;
+        }
         
         if (ReferenceEquals(_activeBlock, null)) {
             var blockObject = GetNextBlockToSpawn(_blockPools[_currentLevel]);
@@ -124,7 +143,7 @@ public class GameManager : MonoBehaviour
         _currentHeight.SetValue(highestY);
 
         if (!(highestY >= _heightGoal)) return false;
-        
+        _gameHasEnded = true;
         Debug.Log("WIN!!");
         return true;
 

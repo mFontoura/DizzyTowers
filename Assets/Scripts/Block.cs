@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    public delegate void OnBlockTouchedKillZone (Block block);
+    public event OnBlockTouchedKillZone blockTouchedKillZone;
+    
     //TODO:move to config file
     private const float BLOCK_SIZE = 0.50f;
     
@@ -32,13 +35,20 @@ public class Block : MonoBehaviour
         gameObject.tag = "physics_activator";
         gameObject.SetActive(false);
     }
-    
+
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("physics_activator")) {
             DisableControls();
             
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("kill_zone")) {
+            blockTouchedKillZone?.Invoke(this);
         }
     }
 
