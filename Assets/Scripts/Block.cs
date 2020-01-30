@@ -36,7 +36,6 @@ public class Block : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("beh");
         if (other.gameObject.CompareTag("physics_activator")) {
             DisableControls();
             

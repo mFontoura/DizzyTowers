@@ -350,6 +350,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b7a4c63582a0cb8458ed8c3871c8d420, type: 2}
   _blocksPoolParent: {fileID: 1745087988}
   _spawnPoint: {x: 0, y: 7, z: 0}
+  _startingHeight: -3
+  _currentHeight: {fileID: 11400000, guid: 2963417b91d79e34285815669af641eb, type: 2}
 --- !u!4 &1631806923
 Transform:
   m_ObjectHideFlags: 0

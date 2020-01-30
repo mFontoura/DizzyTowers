@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
     private const int POOL_SIZE = 50;
+    //TODO: should all be in a config
+    private const float UNIT_SIZE = 0.50f;
+    private const float TARGET_HEIGHT_TO_WIN = 6;
 
     private static GameManager sInstance;
 
@@ -14,6 +16,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Level[] _levelConfigs;
     [SerializeField] private Transform _blocksPoolParent;
     [SerializeField] private Vector3 _spawnPoint;
+    [SerializeField] private float _startingHeight;
+    [SerializeField] private FloatVar _currentHeight;
 
     private List<Player> _players;
     private int _numOfLevels;
@@ -23,6 +27,7 @@ public class GameManager : MonoBehaviour
     private bool _gameIsRunning;
     private Block _activeBlock;
     private float _passedTimeSinceLastDrop;
+    private float _heightGoal;
     
 
     private void Awake()
@@ -41,6 +46,8 @@ public class GameManager : MonoBehaviour
         _players = new List<Player>();
         _numOfLevels = _levelConfigs.Length;
         _blockPools = new Block[_numOfLevels][];
+        _heightGoal = (UNIT_SIZE * TARGET_HEIGHT_TO_WIN) + _startingHeight;
+        _currentHeight.SetValue(_startingHeight);
 
         InitPools();
     }
@@ -88,6 +95,8 @@ public class GameManager : MonoBehaviour
     {
         if (!_gameIsRunning) return;
         
+        if(ReachedTargetHeight()) return;
+        
         if (ReferenceEquals(_activeBlock, null)) {
             var blockObject = GetNextBlockToSpawn(_blockPools[_currentLevel]);
             SpawnBlock(blockObject);
@@ -100,11 +109,32 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private bool ReachedTargetHeight()
+    {
+        //TODO: Need to optimize a loooot
+        var highestY = _startingHeight;
+        foreach (var child in _blocksPoolParent.GetComponentsInChildren<Block>()) {
+            if (child.IsActive) continue;
+            if (child.transform.position.y > highestY) {
+                highestY = child.transform.position.y;
+            }
+
+        }
+        
+        _currentHeight.SetValue(highestY);
+
+        if (!(highestY >= _heightGoal)) return false;
+        
+        Debug.Log("WIN!!");
+        return true;
+
+    }
+
     private void FixedUpdate()
     {
         if (!ReferenceEquals(_activeBlock, null)) {
             _passedTimeSinceLastDrop += Time.deltaTime;
-            if (_passedTimeSinceLastDrop >= 1f) {
+            if (_passedTimeSinceLastDrop >= 0.5f) {
                 _activeBlock.DropDownOneBlock();
                 _passedTimeSinceLastDrop = 0f;
             }
