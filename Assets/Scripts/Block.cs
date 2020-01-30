@@ -13,6 +13,17 @@ public class Block : MonoBehaviour
         _rigidbody2D.gravityScale = 0;
     }
     
+    public void Init(Sprite blockSprite, Material spriteMaterial)
+    {
+        foreach (var blockRenderer in GetComponentsInChildren<SpriteRenderer>()) {
+            blockRenderer.sprite = blockSprite;
+            blockRenderer.sortingLayerName = "GameplayObjs";
+            blockRenderer.material = spriteMaterial;
+        }
+
+        gameObject.SetActive(false);
+    }
+    
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -30,4 +41,6 @@ public class Block : MonoBehaviour
         GetComponent<RoutineTask>().StopTask();
         GetComponent<Controllable>().enabled = false;
     }
+
+
 }
