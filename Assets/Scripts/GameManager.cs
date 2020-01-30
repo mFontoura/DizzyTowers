@@ -4,6 +4,15 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+    public enum EndGame
+    {
+        Victory,
+        Defeat
+    }
+    
+    public delegate void OnGameEnded (EndGame endGame);
+    public static event OnGameEnded gameEnded;
+    
     private const int POOL_SIZE = 50;
     //TODO: should all be in a config
     private const float UNIT_SIZE = 0.50f;
@@ -111,7 +120,7 @@ public class GameManager : MonoBehaviour
         if(ReachedTargetHeight()) return;
 
         if (_currentHealthPoints.GetValue() <= 0) {
-            Debug.Log("GAME OVER");
+            gameEnded?.Invoke(EndGame.Defeat);
             _gameHasEnded = true;
             return;
         }
@@ -144,7 +153,7 @@ public class GameManager : MonoBehaviour
 
         if (!(highestY >= _heightGoal)) return false;
         _gameHasEnded = true;
-        Debug.Log("WIN!!");
+        gameEnded?.Invoke(EndGame.Victory);
         return true;
 
     }
