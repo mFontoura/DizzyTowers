@@ -127,9 +127,4 @@ public class Controllable : MonoBehaviour
     {
         transform.Rotate(new Vector3(0,0,90f));
     }
-
-    public void DropDownOneBlock()
-    {
-        _rigidbody2D.MovePosition(new Vector3(transform.position.x, transform.position.y - BLOCK_SIZE));
-    }
 }

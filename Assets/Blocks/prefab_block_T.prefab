@@ -374,6 +374,7 @@ GameObject:
   - component: {fileID: 6593083941753146758}
   - component: {fileID: 4311260930309716661}
   - component: {fileID: 8955592465651019412}
+  - component: {fileID: 114344342865172090}
   m_Layer: 0
   m_Name: prefab_block_T
   m_TagString: Untagged
@@ -500,6 +501,21 @@ CompositeCollider2D:
       - {x: -0.4099999, y: -1.0700002}
       - {x: -0.4099999, y: -2.0700002}
   m_VertexDistance: 0.0005
+--- !u!114 &114344342865172090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4951059004370776804}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4b43df1bd964d48a12a4d40457d753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 1
+  _maxSpeed: 1
+  _timeToMaxSpeed: 2
 --- !u!1 &5495347656176019525
 GameObject:
   m_ObjectHideFlags: 0
