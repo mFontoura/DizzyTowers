@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 public class Player
 {
-    
-    
     private readonly IntVar _healthPoints;
 
     public Player(IntVar healthPoints, IEnumerable<Block[]> blockPools)
