@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8523ac7eb7654b0479c5ae72a5944368, type: 3}
   m_Name: CurrentHeight
   m_EditorClassIdentifier: 
-  value: 0
+  value: 5.048082

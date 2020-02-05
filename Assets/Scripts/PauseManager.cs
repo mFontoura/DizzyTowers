@@ -5,7 +5,7 @@ public class PauseManager : MonoBehaviour, IMenu
 {
     public static PauseManager Instance;
     
-    [SerializeField] private GameObject _optionsPrefab;
+    [SerializeField] private GameObject _optionsPrefab = null;
 
     private void Awake()
     {

@@ -5,9 +5,9 @@ using UnityEngine;
 public class Level : ScriptableObject
 {
     [SerializeField] private string _levelName;
-    [SerializeField] private GameObject[] _blockPrefabs;
-    [SerializeField] private Sprite[] _blockImages;
-    [SerializeField] private Material _spriteMaterial;
+    [SerializeField] private GameObject[] _blockPrefabs = null;
+    [SerializeField] private Sprite[] _blockImages = null;
+    [SerializeField] private Material _spriteMaterial = null;
 
     public Material SpriteMaterial => _spriteMaterial;
 

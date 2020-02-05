@@ -5,7 +5,7 @@ using UnityEngine.Events;
 public class RoutineTask : MonoBehaviour
 {
     [SerializeField] private float _timeout = 1f;
-    [SerializeField] private UnityEvent _event;
+    [SerializeField] private UnityEvent _event = null;
 
     private Coroutine _routine;
     

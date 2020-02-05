@@ -12,7 +12,7 @@ public class TouchInput : MonoBehaviour, IInputHandler
 
     private Vector3 _lastPosition;
     private float _currentHoldTime;
-    private float _maxTimeToActivateAction = 0.1f;
+    //private float _maxTimeToActivateAction = 0.1f;
     
     public bool Left()
     {

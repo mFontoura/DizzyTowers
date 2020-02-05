@@ -16,7 +16,7 @@ public class Controllable : MonoBehaviour
 
     [SerializeField] private float _speed = 1f;
     [SerializeField] private float _maxSpeed = 1f;
-    [SerializeField] private float _timeToMaxSpeed = 2f;
+    //[SerializeField] private float _timeToMaxSpeed = 2f;
     
     private IInputHandler _inputHandler;
     private Vector3 _position;

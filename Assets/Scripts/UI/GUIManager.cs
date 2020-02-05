@@ -4,7 +4,7 @@ namespace UI
 {
     public class GUIManager : MonoBehaviour
     {
-        [SerializeField] private GameObject _pauseMenuPrefab;
+        [SerializeField] private GameObject _pauseMenuPrefab = null;
 
         private PauseManager _pauseManager;
         public void OpenPauseMenu()

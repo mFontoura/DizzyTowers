@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    public delegate void OnBlockTouchedKillZone (Block block);
-    public event OnBlockTouchedKillZone blockTouchedKillZone;
+    public delegate void BlockTouchedKillZone (Block block);
+    public static event BlockTouchedKillZone onBlockTouchedKillZone;
     
     //TODO:move to config file
     private const float BLOCK_SIZE = 0.50f;
@@ -48,7 +47,7 @@ public class Block : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("kill_zone")) {
-            blockTouchedKillZone?.Invoke(this);
+            onBlockTouchedKillZone?.Invoke(this);
         }
     }
 

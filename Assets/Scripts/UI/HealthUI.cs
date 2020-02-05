@@ -5,8 +5,8 @@ namespace UI
 {
     public class HealthUI : MonoBehaviour
     {
-        [SerializeField] private IntVar _healthVar;
-        [SerializeField] private TextMeshProUGUI _text;
+        [SerializeField] private IntVar _healthVar = null;
+        [SerializeField] private TextMeshProUGUI _text = null;
     
         void Update()
         {

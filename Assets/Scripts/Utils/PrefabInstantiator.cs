@@ -2,8 +2,8 @@
 
 public class PrefabInstantiator : MonoBehaviour
 {
-    [SerializeField] private GameObject _prefab;
-    [SerializeField] private Transform _parentTransform;
+    [SerializeField] private GameObject _prefab = null;
+    [SerializeField] private Transform _parentTransform = null;
 
     public void InstantiatePrefab()
     {

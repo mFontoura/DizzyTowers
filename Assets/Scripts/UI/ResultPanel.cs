@@ -6,7 +6,7 @@ namespace UI
 {
     public class ResultPanel : MonoBehaviour
     {
-        [SerializeField] private TextMeshProUGUI _resultText;
+        [SerializeField] private TextMeshProUGUI _resultText = null;
 
         private void Awake()
         {
