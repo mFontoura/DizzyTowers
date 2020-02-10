@@ -36,4 +36,19 @@ public class KeyboardInput : MonoBehaviour, IInputHandler
     {
         return Input.GetKeyUp(KeyCode.Space);
     }
+    
+    public bool Down()
+    {
+        return Input.GetKeyDown(KeyCode.S);
+    }
+
+    public bool ReleaseDown()
+    {
+        return Input.GetKeyUp(KeyCode.S);
+    }
+
+    public bool HoldingDown()
+    {
+        return Input.GetKey(KeyCode.S);
+    }
 }

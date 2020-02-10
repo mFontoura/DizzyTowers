@@ -76,4 +76,19 @@ public class TouchInput : MonoBehaviour, IInputHandler
         
         return Input.GetTouch(0).phase == TouchPhase.Ended;
     }
+
+    public bool HoldingDown()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool Down()
+    {
+        throw new NotImplementedException();
+    }
+
+    public bool ReleaseDown()
+    {
+        throw new NotImplementedException();
+    }
 }

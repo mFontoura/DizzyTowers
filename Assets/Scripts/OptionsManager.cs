@@ -1,12 +1,17 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class OptionsManager : MonoBehaviour, IMenu
 {
     private IMenu _parentMenu;
     
-    public void Init(IMenu parentMenu)
+    public void Init(IMenu parentMenu, Color color)
     {
         _parentMenu = parentMenu;
+        var textLabels = GetComponentsInChildren<TextMeshProUGUI>();
+        foreach (var textLabel in textLabels) {
+            textLabel.color = color;
+        }
     }
     
     public void BackButtonPress()

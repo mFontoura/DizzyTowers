@@ -19,7 +19,7 @@ public class PauseManager : MonoBehaviour, IMenu
 
     public void OpenOptionsMenu()
     {
-        Instantiate(_optionsPrefab, transform.parent).GetComponent<OptionsManager>().Init(this);
+        Instantiate(_optionsPrefab, transform.parent).GetComponent<OptionsManager>().Init(this, Color.black);
         Close();
     }
 

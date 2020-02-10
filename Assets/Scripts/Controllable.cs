@@ -8,7 +8,8 @@ public class Controllable : MonoBehaviour
         Free,
         Selected,
         MovingLeft,
-        MovingRight
+        MovingRight,
+        MovingDown
     }
     
     //TODO:move to config file
@@ -47,7 +48,7 @@ public class Controllable : MonoBehaviour
     {
         switch (_state) {
             case State.Free:{
-                if (_inputHandler.Left() || _inputHandler.Right()) {
+                if (_inputHandler.Left() || _inputHandler.Right() || _inputHandler.Down()) {
                     _state = State.Selected;
                 }
                 
@@ -74,6 +75,13 @@ public class Controllable : MonoBehaviour
 
                 if (_inputHandler.ReleaseLeft() || _inputHandler.ReleaseRight()) {
                     ResetBlockState();
+                }
+
+                if (_inputHandler.HoldingDown()) {
+                    _position = new Vector3(_position.x, transform.position.y - BLOCK_SIZE);
+                    _state = State.MovingDown;
+                    _rigidbody2D.MovePosition(new Vector2(transform.position.x, _position.y));
+                    break;
                 }
                 
                 if (_inputHandler.Action()) {
@@ -106,6 +114,19 @@ public class Controllable : MonoBehaviour
                 }
                 
                 if (_inputHandler.ReleaseLeft() || _inputHandler.ReleaseRight()) {
+                    ResetBlockState();
+                }
+                break;
+            case State.MovingDown:
+                _currentHoldingTime += Time.deltaTime * _speed;
+                if (_currentHoldingTime >= _currentSpeed) {
+                    _position = new Vector3(_position.x, transform.position.y - BLOCK_SIZE);
+                    _currentSpeed -= 0.2f;
+                    _currentHoldingTime = 0;
+                    _rigidbody2D.MovePosition(new Vector2(transform.position.x, _position.y));
+                }
+                
+                if (_inputHandler.ReleaseLeft() || _inputHandler.ReleaseRight() || _inputHandler.ReleaseDown()) {
                     ResetBlockState();
                 }
                 break;

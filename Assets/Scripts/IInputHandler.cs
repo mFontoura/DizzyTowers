@@ -8,4 +8,7 @@ public interface IInputHandler
     bool ReleaseLeft();
     bool ReleaseRight();
     bool Action();
+    bool HoldingDown();
+    bool Down();
+    bool ReleaseDown();
 }
